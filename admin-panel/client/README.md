@@ -1,0 +1,1 @@
+# Pharma admin panel client
