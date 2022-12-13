@@ -16,6 +16,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users.router");
 var authRouter = require("./routes/auth.router");
 var refreshRouter = require("./routes/refresh.router");
+var employeesRouter = require("./routes/employees.router");
 
 var app = express();
 
@@ -49,7 +50,7 @@ app.use("/api/refresh", refreshRouter);
 
 app.use(verifyJWT);
 app.use("/users", usersRouter);
-
+app.use("/employee", employeesRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

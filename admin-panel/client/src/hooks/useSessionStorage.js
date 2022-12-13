@@ -2,17 +2,17 @@ import { useState } from "react";
 
 /**
  *
- * @param {string} keyName local storage key name
- * @param {any} defaultValue key's default value
+ * @param {string} keyName session storage key name
+ * @param {ant} defaultValue key's default value
  */
-export const useLocalStorage = (keyName, defaultValue) => {
+export const useSessionStorage = (keyName, defaultValue) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
-      const value = window.localStorage.getItem(keyName);
+      const value = window.sessionStorage.getItem(keyName);
       if (value) {
         return JSON.parse(value);
       } else {
-        window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
+        window.sessionStorage.setItem(keyName, JSON.stringify(defaultValue));
         return defaultValue;
       }
     } catch (err) {
@@ -22,7 +22,7 @@ export const useLocalStorage = (keyName, defaultValue) => {
 
   const setValue = (newValue) => {
     try {
-      window.localStorage.setItem(keyName, JSON.stringify(newValue));
+      window.sessionStorage.setItem(keyName, JSON.stringify(newValue));
     } catch (err) {}
     setStoredValue(newValue);
   };

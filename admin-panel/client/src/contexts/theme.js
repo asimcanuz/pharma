@@ -1,5 +1,6 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState, useMemo, useEffect } from "react";
 import { createTheme } from "@mui/material/styles";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 // color design tokens export
 export const tokens = (mode) => ({
@@ -199,12 +200,21 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-  const [mode, setMode] = useState("dark");
+  const [localTheme, setLocalTheme] = useLocalStorage("thememode", "light");
+
+  const _mode = localTheme || "light";
+
+  const [mode, setMode] = useState(_mode);
+
+  useEffect(() => {
+    setLocalTheme(mode);
+  }, [mode, setLocalTheme]);
 
   const colorMode = useMemo(
     () => ({
-      toggleColorMode: () =>
-        setMode((prev) => (prev === "light" ? "dark" : "light")),
+      toggleColorMode: () => {
+        setMode((prev) => (prev === "light" ? "dark" : "light"));
+      },
     }),
     []
   );

@@ -2,8 +2,6 @@ const User = require("../models").User;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const fsPromises = require("fs").promises;
-const path = require("path");
 
 const handleRegister = async (req, res) => {
   try {
@@ -21,6 +19,7 @@ const handleRegister = async (req, res) => {
     }).then((user) => {
       res.status(201).send(user);
     });
+
     // generate a token
   } catch (error) {
     res.status(error.code).send({
@@ -73,6 +72,7 @@ const handleLogin = async (req, res) => {
         username: user.username,
         email: user.email,
         accessToken: accessToken,
+        refreshToken: refreshToken,
       });
     })
     .catch((err) => {
@@ -83,12 +83,11 @@ const handleLogin = async (req, res) => {
 const handleLogout = (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.status(204); // no content
-
   const refreshToken = cookies.jwt;
+
   User.findOne({
     where: { refreshToken: refreshToken },
   }).then((foundUser) => {
-    // console.log(foundUser);
     if (!foundUser) {
       res.clearCookie("jwt", { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
       return res.status(204); // Forbidden
