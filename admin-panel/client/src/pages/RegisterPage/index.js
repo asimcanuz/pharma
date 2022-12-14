@@ -27,8 +27,8 @@ import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 
-const REGISTER_URL = "/api/auth/register";
-const LOGIN_URL = "/api/auth/login";
+const REGISTER_URL = "/auth/register";
+const LOGIN_URL = "/auth/login";
 
 function Copyright(props) {
   return (
@@ -323,49 +323,3 @@ function RegisterPage() {
 }
 
 export default RegisterPage;
-
-//                 <FormControlLabel
-//                   disabled
-//                   control={<Checkbox value="remember" color="primary" />}
-//                   label="Remember me"
-//                 />
-//                 <Button
-//                   type="submit"
-//                   fullWidth
-//                   variant="contained"
-//                   sx={{
-//                     mt: 3,
-//                     mb: 2,
-//                     backgroundColor: color.greenAccent[400],
-//                   }}
-//                 >
-//                   Sign In
-//                 </Button>
-//                 <Grid container>
-//                   <Grid item xs>
-//                     <Link
-//                       component={RouterLink}
-//                       href="#"
-//                       sx={{
-//                         color: color.grey["600"],
-//                         "$:active": { color: color.grey["600"] },
-//                         "$:focused": { color: color.grey["600"] },
-//                       }}
-//                     >
-//                       Forgot password?
-//                     </Link>
-//                   </Grid>
-//                   <Grid item>
-//                     <Link
-//                       component={RouterLink}
-//                       href="#"
-//                       sx={{
-//                         color: color.grey["600"],
-//                         "$:active": { color: color.grey["600"] },
-//                         "$:focused": { color: color.grey["600"] },
-//                       }}
-//                     >
-//                       {"Don't have an account? Sign Up"}
-//                     </Link>
-//                   </Grid>
-//                 </Grid>

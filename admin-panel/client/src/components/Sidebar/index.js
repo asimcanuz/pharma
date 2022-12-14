@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -8,8 +8,17 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import "react-pro-sidebar/dist/css/styles.css";
 import useAuth from "../../hooks/useAuth";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+  setSidebarSelected,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -18,7 +27,10 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => {
+        setSidebarSelected(title);
+        setSelected(title);
+      }}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -32,6 +44,15 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [sidebarselected, setSidebarSelected] = useLocalStorage(
+    "sidebarselected",
+    ""
+  );
+
+  useEffect(() => {
+    if (sidebarselected !== "") setSelected(sidebarselected);
+    return () => setSidebarSelected("Dashboard");
+  }, []);
   const { auth } = useAuth();
 
   return (
@@ -122,20 +143,25 @@ const Sidebar = () => {
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              setSidebarSelected={setSidebarSelected}
             />
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ mx: "15px 0 5px 20px" }}
+              sx={{
+                mx: "15px 0 5px 20px",
+                textAlign: isCollapsed ? "center" : null,
+              }}
             >
               Data
             </Typography>
             <Item
-              title="Manage Team"
-              to="/team"
+              title="Employees"
+              to="/employees"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              setSidebarSelected={setSidebarSelected}
             />
           </Box>
         </Menu>

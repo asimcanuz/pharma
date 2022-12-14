@@ -28,7 +28,7 @@ import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 
-const LOGIN_URL = "/api/auth/login";
+const LOGIN_URL = "/auth/login";
 
 function Copyright(props) {
   return (
@@ -89,7 +89,6 @@ function LoginPage() {
         username: values.username,
         password: values.password,
         accessToken: response.data.accessToken,
-        refreshToken: response.data.refreshToken,
       };
       setAuth(authObj);
       setLocalAuth(authObj);

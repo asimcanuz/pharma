@@ -5,12 +5,11 @@ require("dotenv").config();
 const handleRefreshToken = (req, res) => {
   const cookies = req.cookies;
   if (!cookies.jwt) return res.status(400);
-  // console.log(cookies.jwt);
+  console.log(cookies.jwt);
   const refreshToken = cookies.jwt;
   User.findOne({
     where: { refreshToken: refreshToken },
   }).then((foundUser) => {
-    // console.log(foundUser);
     if (!foundUser) {
       return res.status(403); // Forbidden
     }
@@ -19,8 +18,11 @@ const handleRefreshToken = (req, res) => {
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
+        console.log(decoded);
+        console.log(foundUser.username);
         if (err || foundUser.username !== decoded.username)
           return res.sendStatus(403);
+
         const accessToken = jwt.sign(
           {
             username: decoded.username,

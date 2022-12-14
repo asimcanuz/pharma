@@ -7,15 +7,8 @@ export default function Layout(params) {
     <main className="content">
       {/* TOPBAR */}
       <Topbar />
-      <Box m="20px">
-        <Box
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
-          <Outlet />
-        </Box>
-      </Box>
+
+      <Outlet />
     </main>
   );
 }

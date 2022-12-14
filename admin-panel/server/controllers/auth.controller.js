@@ -65,14 +65,11 @@ const handleLogin = async (req, res) => {
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
+
       user.update({ refreshToken: refreshToken });
 
       res.status(200).send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        accessToken: accessToken,
-        refreshToken: refreshToken,
+        accessToken,
       });
     })
     .catch((err) => {
@@ -82,6 +79,7 @@ const handleLogin = async (req, res) => {
 
 const handleLogout = (req, res) => {
   const cookies = req.cookies;
+  console.log(cookies);
   if (!cookies?.jwt) return res.status(204); // no content
   const refreshToken = cookies.jwt;
 

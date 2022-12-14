@@ -23,7 +23,7 @@ function Topbar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    axiosPrivate.get("/api/auth/logout");
+    axiosPrivate.get("/auth/logout");
     await setAuth({});
     await setLocalAuthData({});
     await navigate("/");

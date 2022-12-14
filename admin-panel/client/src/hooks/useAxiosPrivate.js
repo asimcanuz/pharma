@@ -1,6 +1,6 @@
 import { axiosPrivate } from "../api/axios";
 import { useEffect } from "react";
-import useRefreshToken from "./useRefreshToken.js";
+import useRefreshToken from "./useRefreshToken";
 import useAuth from "./useAuth";
 
 const useAxiosPrivate = () => {
@@ -22,6 +22,8 @@ const useAxiosPrivate = () => {
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
+        // 30s sonra access token yenilenir ve bize 403 döner
+        // 403 dönünce access token yenilenir ve istek tekrarlanır.
         if (error?.response?.status === 403 && !prevRequest?.sent) {
           prevRequest.sent = true;
           const newAccessToken = await refresh();
@@ -31,7 +33,6 @@ const useAxiosPrivate = () => {
         return Promise.reject(error);
       }
     );
-
     return () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);

@@ -45,8 +45,8 @@ models.sequelize
   .catch((err) => console.log(err, "Something went wrong with Db update!"));
 
 app.use("/", indexRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/refresh", refreshRouter);
+app.use("/auth", authRouter);
+app.use("/refresh", refreshRouter);
 
 app.use(verifyJWT);
 app.use("/users", usersRouter);
