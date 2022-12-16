@@ -104,9 +104,7 @@ function RegisterPage() {
         setLocalAuth(authObj);
         navigate("/dashboard", { replace: true });
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   return (

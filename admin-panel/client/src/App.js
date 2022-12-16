@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserProfile from "./pages/UserProfile";
 import PrivateRoute from "./Routes/PrivateRoutes";
+import EmployeeAddNewPage from "./pages/EmployeesPage/EmployeeAddNewPage";
 
 // create a query client
 const queryClient = new QueryClient();
@@ -62,6 +63,14 @@ function App() {
                   element={
                     <PrivateRoute>
                       <EmployeeUpdatePage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/employees/addnew"
+                  element={
+                    <PrivateRoute>
+                      <EmployeeAddNewPage />
                     </PrivateRoute>
                   }
                 />

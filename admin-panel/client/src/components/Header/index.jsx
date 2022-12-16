@@ -9,9 +9,11 @@ function Header({ title, subTitle }) {
       <Typography variant="h2" color={colors.grey[100]} fontWeight="bold">
         {title}
       </Typography>
-      <Typography variant="h5" color={colors.greenAccent[400]}>
-        {subTitle}
-      </Typography>
+      {subTitle && (
+        <Typography variant="h5" color={colors.greenAccent[400]}>
+          {subTitle}
+        </Typography>
+      )}
     </Box>
   );
 }

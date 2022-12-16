@@ -15,4 +15,11 @@ router.get("/date", employeeControllers.getEmployeeGivingDate);
 
 router.post("/add", employeeControllers.addNewEmployee);
 
+// put
+
+router.put("/update/:id", employeeControllers.updateEmployee);
+
+// delete
+router.delete("/delete/:id", employeeControllers.deleteEmployee);
+
 module.exports = router;

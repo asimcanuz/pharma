@@ -7,7 +7,12 @@ import { tokens } from "../../contexts/theme";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import UpdateIcon from "@mui/icons-material/UpdateOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import AddOutlined from "@mui/icons-material/AddOutlined";
+
 import useAuth from "../../hooks/useAuth";
+import SnackBar from "../../components/SnackBar";
+const delete_uri = "/employee/delete";
+
 function EmployeesPage() {
   const [employees, setEmployees] = useState();
   const theme = useTheme();
@@ -18,6 +23,40 @@ function EmployeesPage() {
   const location = useLocation();
   const { setAuth, setLocalAuth } = useAuth();
 
+  const [updateAlert, setUpdateAlert] = useState({
+    isOpen: false,
+    transition: "fade",
+    name: "update",
+    message: "",
+  });
+  const handleDelete = async (id) => {
+    const controller = new AbortController();
+
+    try {
+      const response = await axiosPrivate.delete(delete_uri + `/${id}`, {
+        signal: controller.signal,
+      });
+      if (response.status === 200) {
+        setUpdateAlert({
+          ...updateAlert,
+          isOpen: true,
+          message: "Delete successful",
+          type: "alert",
+          severity: "success",
+        });
+      }
+      const _employees = employees.filter((emp) => emp.id !== id);
+      setEmployees(_employees);
+    } catch (err) {
+      setUpdateAlert({
+        ...updateAlert,
+        isOpen: true,
+        message: "Delete error",
+        type: "alert",
+        severity: "error",
+      });
+    }
+  };
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -87,6 +126,7 @@ function EmployeesPage() {
               variant="contained"
               startIcon={<DeleteIcon />}
               sx={{ background: colors.redAccent[400] }}
+              onClick={() => handleDelete(id)}
             >
               <Typography sx={{ mr: 2, display: { sm: "none", md: "block" } }}>
                 Delete
@@ -100,9 +140,21 @@ function EmployeesPage() {
   return (
     <Box m="20px">
       <Header title={"Employees"} subTitle="Your employees" />
+
       <Box m={"40px 0 0 0"}>
+        <Box display={"flex"} justifyContent="end">
+          <Button
+            variant="contained"
+            sx={{ background: colors.greenAccent[600], mr: "6px" }}
+            startIcon={<AddOutlined />}
+            LinkComponent={Link}
+            to={`/employees/addnew`}
+          >
+            Add New Employee
+          </Button>
+        </Box>
         <Box
-          m="40px 0 0 0"
+          m="20px 0 0 0"
           height={"75vh"}
           sx={{
             "& .MuiDataGrid-root": {
@@ -129,6 +181,15 @@ function EmployeesPage() {
         >
           {employees && <DataGrid rows={employees} columns={columns} />}
         </Box>
+        <SnackBar
+          isOpen={updateAlert.isOpen}
+          onClose={() => setUpdateAlert({ ...updateAlert, isOpen: false })}
+          message={updateAlert.message}
+          name={updateAlert.name}
+          type={updateAlert.type}
+          transition={"fade"}
+          severity={updateAlert.severity}
+        />
       </Box>
     </Box>
   );

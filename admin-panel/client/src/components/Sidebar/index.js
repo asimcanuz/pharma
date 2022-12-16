@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../contexts/theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import "react-pro-sidebar/dist/css/styles.css";
 import useAuth from "../../hooks/useAuth";
-import { useSessionStorage } from "../../hooks/useSessionStorage";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const Item = ({
@@ -155,14 +156,24 @@ const Sidebar = () => {
             >
               Data
             </Typography>
-            <Item
-              title="Employees"
-              to="/employees"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              setSidebarSelected={setSidebarSelected}
-            />
+            <SubMenu title="Employees" icon={<BadgeOutlinedIcon />}>
+              <Item
+                title="List"
+                to="/employees"
+                icon={<PeopleOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+                setSidebarSelected={setSidebarSelected}
+              />
+              <Item
+                title="Add New"
+                to="/employees/addnew"
+                icon={<PersonAddOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+                setSidebarSelected={setSidebarSelected}
+              />
+            </SubMenu>
           </Box>
         </Menu>
       </ProSidebar>

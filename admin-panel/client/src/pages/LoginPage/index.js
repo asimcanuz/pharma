@@ -96,7 +96,6 @@ function LoginPage() {
 
       navigate(from, { replace: true });
     } catch (err) {
-      console.log(err.response);
       setError({ err: true, message: err.response.data.message });
     }
   };
